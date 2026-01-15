@@ -1,6 +1,6 @@
 package com.cogniquest.cogniquest.model;
 
-public enum DifficultyLevel {
+public enum Difficulty {
     EASY,
     INTERMEDIATE,
     ADVANCED

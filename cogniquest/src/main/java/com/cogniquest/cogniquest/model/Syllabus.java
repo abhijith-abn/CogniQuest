@@ -4,16 +4,27 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "SYLLABUS")
 public class Syllabus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String syllabusText;
+    // Stores the name of the subject/course (Lean model)
+    @Column(nullable = false)
+    private String courseName;
 
+    // Tracks if topics have been reviewed and finalized (false = needs review, true = ready for Qs)
+    @Column(nullable = false)
+    private Boolean isApproved = false;
+
+    // Links to the Teacher who created this syllabus (Placeholder ID for now)
+    @Column(name = "teacher_id")
+    private Long teacherId;
+
+    // One Syllabus has Many Topics. Cascade ensures topics are saved/deleted with the Syllabus.
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "syllabus_id")
+    @JoinColumn(name = "syllabus_id") // This is the Foreign Key column in the Topic table
     private List<Topic> topics;
 
     // Getters and Setters
@@ -25,12 +36,28 @@ public class Syllabus {
         this.id = id;
     }
 
-    public String getSyllabusText() {
-        return syllabusText;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setSyllabusText(String syllabusText) {
-        this.syllabusText = syllabusText;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public Boolean getIsApproved() {
+        return isApproved;
+    }
+
+    public void setIsApproved(Boolean approved) {
+        isApproved = approved;
+    }
+
+    public Long getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Long teacherId) {
+        this.teacherId = teacherId;
     }
 
     public List<Topic> getTopics() {

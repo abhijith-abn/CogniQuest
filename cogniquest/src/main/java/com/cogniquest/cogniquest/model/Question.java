@@ -8,18 +8,22 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // CRITICAL: Foreign Key linking Question back to Topic
+    @Column(name = "topic_id")
+    private Long topicId; // <-- ADDED THIS FIELD
+
     @Column(nullable = false, columnDefinition = "TEXT")
     private String questionText;
 
-    // Stores the multiple-choice options, typically A, B, C, D
+    // Stores the multiple-choice options in JSON format
     @Column(columnDefinition = "TEXT")
-    private String optionsJson; // Stores JSON: [{"option": "A", "text": "...", "isCorrect": false}, ...]
+    private String optionsJson;
 
     @Column(nullable = false)
-    private String correctAnswerText; // Store the text of the correct option
+    private String correctAnswerText;
 
     @Enumerated(EnumType.STRING)
-    private DifficultyLevel difficulty;
+    private Difficulty difficulty;
 
     // Getters and Setters
     public Long getId() {
@@ -28,6 +32,14 @@ public class Question {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getTopicId() { // <-- ADDED GETTER/SETTER
+        return topicId;
+    }
+
+    public void setTopicId(Long topicId) { // <-- ADDED GETTER/SETTER
+        this.topicId = topicId;
     }
 
     public String getQuestionText() {
@@ -54,11 +66,11 @@ public class Question {
         this.correctAnswerText = correctAnswerText;
     }
 
-    public DifficultyLevel getDifficulty() {
+    public Difficulty getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(DifficultyLevel difficulty) {
+    public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
 }
